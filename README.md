@@ -30,8 +30,8 @@
 > 예시) D:\ 에서 git clone 진행 시 D:\SSAFY_Algorithm_stduy\ 으로 clone 진행
 
 ```bash
-git clone https://github.com/SorrowAddict/SSAFY_Algorithm_study.git
-cd SSAFY_Algorithm_study
+git clone https://github.com/heeeeeeeeeee1/growing_potatoes.git
+cd growing_potatoes
 ```
 
 ### ⚙️ 2. 작업 전 준비
@@ -54,8 +54,8 @@ git checkout <이 부분 branch명 변경!>
 ```
 예시)
 ```bash
-git branch sorrowaddict
-git checkout sorrowaddict
+git branch heee1
+git checkout heee1
 ```
 
 - <b>브랜치 생성 후 개인 이름 or 닉네임으로 된 <span style="color:red;">폴더 안에서만 작업</span>합니다</b>
