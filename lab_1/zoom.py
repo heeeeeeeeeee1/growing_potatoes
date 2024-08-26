@@ -6,3 +6,4 @@ for a in arr:
     print(a, end = "")
 
 # test
+# test 2 - 안녕하세용
