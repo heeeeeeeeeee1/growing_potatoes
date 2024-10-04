@@ -7,13 +7,26 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar bg-dark border-bottom border-body d-flex justify-content-start" data-bs-theme="dark">
-        <!-- Navbar content -->
-        <a href="" class="nav-link text-white px-3">My Movie</a>
-        <a href="" class="nav-link text-white-50 pe-3">INDEX</a>
-        <a href="{% url 'movies:create' %}" class="nav-link text-white-50 pe-3" >CREATE</a>
-      </nav>
-      
+  <nav class="navbar bg-dark border-bottom border-body d-flex justify-content-start" data-bs-theme="dark">
+    <!-- Navbar content -->
+    <!-- Navbar 내용 수정-->
+    <a href="{% url "movies:index" %}" class="nav-link text-white px-3">SSAFY</a> <!--상세 항목-->
+    <a href="{% url "movies:index" %}" class="nav-link text-white-50 pe-3">INDEX</a> <!--mainpage-->
+    {% if user.is_authenticated %}
+    <a href="{% url "movies:create" %}" class="nav-link text-white-50 pe-3" >CREATE</a>
+    <a href="{% url "movies:create" %}" class="nav-link text-white-50 pe-3" >회원정보수정</a> <!--회원정보 수정 : url 변경 진행해야 함-->
+    <a href="{% url "movies:create" %}" class="nav-link text-white-50 pe-3" >비밀번호변경</a> <!--비밀번호 변경 : url 변경 진행해야 함-->
+    {% comment %} <a href="{% url "" %}" class="nav-link text-white-50 pe-3" >로그아웃</a> <!--로그아웃--> {% endcomment %}        
+    <form action="{% url "accounts:logout" %}" method = "POST">
+      {% csrf_token %}
+      {{for.as_p}} <!--로그아웃 폼 사용-->
+      <input class="nav-link text-white-50 pe-3" type="submit" value="로그아웃"> <!--로그아웃 form 사용-->
+    </form>
+    {% else %}
+    <a href="{% url "movies:index" %}" class="nav-link text-white-50 pe-3">회원가입</a> <!--수정 필요-->
+    <a href="{% url "accounts:login" %}" class="nav-link text-white-50 pe-3">로그인</a> 
+    {% endif %}
+  </nav>
 {% block content %}
 {% endblock content %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
