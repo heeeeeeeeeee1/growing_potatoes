@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block add_nav %}
+    <a class="nav-link" href="#">회원정보수정</a>
+    <a class="nav-link" href="#">비밀번호변경</a>
+    <a class="nav-link" href="#">로그아웃</a>
+{% endblock add_nav %}
+
+{% block content %}
+<h1>Update</h1>
+<form action="{% url "movies:update" movie.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="제출">
+</form>
+{% endblock content %}
