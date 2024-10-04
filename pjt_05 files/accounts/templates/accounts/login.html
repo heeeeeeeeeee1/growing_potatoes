@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>LOGIN PAGE</h1>
-    <hr>
-    <!--login page 작성-->
-    <!--login page로 이동-->
-    <form action="{% url "accounts:login" %}" method="POST"> <!--login 정보 db와 매칭 확인을 위해서 -->
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="로그인">
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>LOGIN PAGE</h1>
+<hr>
+<!--login page 작성-->
+<!--login page로 이동-->
+<form action="{% url "accounts:login" %}" method="POST"> <!--login 정보 db와 매칭 확인을 위해서 -->
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="로그인">
+</form>
+{% endblock content %}

@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from . import models
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login as my_login
 from django.contrib.auth import logout as my_logout
+from django.contrib.auth import update_session_auth_hash
+from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 
 # Create your views here.
@@ -30,13 +32,45 @@ def logout(request):
 
 def signup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
+        print("123")
         if form.is_valid():
             form.save()
             return redirect('movies:index')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     context = {
         'form':form,
     }
     return render(request, 'accounts/signup.html', context)
+
+def delete(request):
+    request.user.delete()
+    return redirect('movies:index')
+
+def update(request):
+    if request.method == "POST":
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('movies:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/update.html', context)
+
+def change_password(request, user_pk):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('movies:index')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/change_password.html', context)

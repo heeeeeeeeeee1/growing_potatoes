@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
+
+
     <h1 class='p-3'>메인 페이지</h1>
-
-
-    <!--mainpage 카드 데이터-->
     {% for movie in movies %}
         {% comment %} <p>{{ movie.title }}</p>
         <p>{{ movie.content }}</p> {% endcomment %}
