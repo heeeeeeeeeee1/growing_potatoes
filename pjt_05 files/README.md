@@ -1,93 +1,123 @@
-# 05_PJT
+
+# PJT 04
+
+### 오늘 pjt 를 통해 배운 내용
+
+* 가상환경을 설정하여 프로젝트를 진행하는 방법을 배울 수 있었다.
+
+* 장고에서 프로젝트를 생성하고, 앱을 생성하여 메인 페이지, create 페이지 등을 만들 수 있었다.
+
+* Bootstrap을 이용하는 방법에 대해 학습할 수 있었다.
+
+
+## A. settings.py — templates 베이스 설정하기
+
+* 주요 요구 사항 : 베이스 템플릿을 세팅에 미리 선언해놓기
+
+* 결과 : 해당하는 위치에 적절한 명령어를 입력하여 선언할 수 있었다.
+  
+  * 기억해볼 부분
+  
+    ```
+    TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                ],
+            },
+        },
+    ]
+    ```
+  
+    * 핵심 내용
+    - 구체적인 명령어에 대한 이해가 필요할 것 같다. 
+    * 생각해본 다른 활용 법
+  * 트러블 슈팅한 부분
+    * 트러블 현상 및 에러 정보
+      위치는 찾아내었는데 어떤 명령어를 작성해야하는지 알 수 없었다.
+    * 원인 및 해결 방법
+      ```
+      'DIRS': [
+            BASE_DIR / 'templates',
+        ],
+      ```
+## B. urls.py — detail 페이지 연결하기
+
+* 주요 요구 사항 : 메인 화면에서 DETAIL 버튼을 클릭하면 detail.html을 호출할 수 있게 연결하기
+
+* 결과 : pk 값을 받아 주소에 올리고, 그걸 디테일 함수에서 인자로 받아갈 수 있게 url 경로를 수정해줌
+  
+  * 기억해볼 부분
+  
+    ```
+    from django.urls import path
+    from . import views
+
+    app_name = 'movies'
+    urlpatterns = [
+        path('', views.index, name='index'),
+        path('create/', views.create, name='create'),
+        path('<int:pk>/', views.detail, name='detail'),
+    ]
+    ```
+    ```
+    {% extends "base.html" %}
+    {% block content %}
+        <h1 class='p-3'>메인 페이지</h1>
+        {% for movie in movies %}
+            {% comment %} <p>{{ movie.title }}</p>
+            <p>{{ movie.content }}</p> {% endcomment %}
+            {% comment %} <img src="" alt=""> {% endcomment %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="p-3">
+            <div class="card">
+                <div class="card-header">
+                <h3> {{ movie.title }} </h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ movie.content }}</p>
+                    <a href="{% url "movies:detail" movie.pk %}" class="btn btn-primary">Detail</a>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    {% endblock content %}
+    ```
+  
+    * 핵심 내용
+      - url에서 path를 <int:pk>로 설정해주기
+    * 생각해본 다른 활용 법
+  * 트러블 슈팅한 부분
+    * 트러블 현상 및 에러 정보
+      pk인자 값을 찾을 수 없다는 에러 발생
+    * 원인 및 해결 방법
+      ```
+      path('<int:pk>/', views.detail, name='detail'),
+      ```
+      - pk값을 경로 요청시부터 받아, 그것을 detail view에서 받아 올 수 있게 해야하는데 이 과정을 인지하지 못하고 진행했음.
+
+-----
+
+
+# 오늘 후기
+
+* 오랜만에 bootstrap을 다시 이용해보아서 잊은 부분들도 많고, 반가웠던 부분도 많았다.
+* 처음부터 끝까지 장고를 이용하여 작업을 해보니, 내가 부족한 부분이 어디인지를 인지할 수 있었다.
+* 이론 공부를 조금 더 꼼꼼히 진행하고, 내용을 이해할 수 있게 해야겠다.
 
 
 
-## Getting started
+### 참고 사이트
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://lab.ssafy.com/jumin9774/05_pjt.git
-git branch -M master
-git push -uf origin master
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://lab.ssafy.com/jumin9774/05_pjt/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+* [bootstrap 공식 사이트](https://getbootstrap.com/)

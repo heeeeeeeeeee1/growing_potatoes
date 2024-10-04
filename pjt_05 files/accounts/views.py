@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from . import models
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login as my_login
 from django.contrib.auth import logout as my_logout
 
@@ -27,4 +27,16 @@ def login(request):
 def logout(request):
     my_logout(request) #main페이지로 redirect == POST로 받아서 삭제해야함
     return redirect('movies:index')
-    
+
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('movies:index')
+    else:
+        form = UserCreationForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/signup.html', context)

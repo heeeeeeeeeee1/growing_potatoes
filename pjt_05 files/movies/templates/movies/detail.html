@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class='p-3'>
+        <h1>영화 상세 페이지</h1>
+            <img src="{{ movie.image.url }}" alt="img">
+            {% comment %} <p>{{ movie.image }}</p> {% endcomment %}
+            <h3>{{ movie.title }}</h3>
+            <p>{{ movie.content }}</p>
+        <br>
+        {% comment %} <form action="{% url 'movies:update' movie.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="submit" value='UPDATE'>
+        </form>
+        <form action="{% url 'movies:delete' movie.pk %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="submit" value='DELETE'>
+        </form> {% endcomment %}
+        <br>
+        <form action="{% url 'movies:index'%}" method="GET">
+        <input type="submit" value='BACK' class="btn btn-primary">
+        </form>
+        <form action="{% url 'movies:update' movie.pk %}">
+            <input type="submit" value="UPDATE">
+        </form>
+    </div>
+{% endblock content %}
