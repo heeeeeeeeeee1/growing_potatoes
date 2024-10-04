@@ -49,3 +49,10 @@ def update(request, pk):
         'form':form,
     }
     return render(request, 'movies/update.html', context)
+
+#delete 함수 생성
+#기존처럼 특정 obj받아서 delete제거
+def delete(request, pk):
+    movie = Movie.objects.get(pk=pk) #매개변수로 인자를 받음
+    movie.delete() #삭제하고 메인페이지로 리다이렉트
+    return redirect('movies:index')
